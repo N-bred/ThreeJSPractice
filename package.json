@@ -2,14 +2,21 @@
   "name": "threejspractice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/js/index.js",
+  "source": "src/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel",
+    "build": "parcel build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "buffer": "^6.0.3",
     "parcel": "^2.12.0"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "three": "^0.164.1"
   }
 }
