@@ -5,7 +5,13 @@ export const main = new GUI();
 export const options = {
     sphereColor: "#ffea00",
     boxColor: "#00aaee",
-    wireframe: false
+    icosahedronColor: "#ae86ea",
+    wireframe: false,
+    boxSpeed: 0.1
+}
+
+export const results = {
+    boxSpeed: 0
 }
 
 export const addColor = (options, key, object) => {
@@ -24,4 +30,7 @@ export const addToAll = (options, key, objects) => {
     })
 }
 
+export const addSlider = (options, key, min, max, object) => {
+    main.add(options, key, min, max);
+}
 
