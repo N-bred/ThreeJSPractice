@@ -1,21 +1,17 @@
-
+import { CONSTANTS as C} from './main';
 import * as T from 'three';
-import * as GUI from './gui';
+import { GUI as G } from './gui';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { Box, Plane, Sphere, Icosahedron } from './meshes';
 
-const H = window.innerHeight;
-const W = window.innerWidth;
-const FOV = 75;
-const near = 0.1;
-const far = 1000;
-
 // Scene Cameras
+
 const SC = {
-    camera: new T.PerspectiveCamera(FOV, W/H, near, far)
+    camera: new T.PerspectiveCamera(C.FOV, C.W/C.H, C.NEAR, C.FAR)
 }
 
 // Scene Objects
+
 const SO = {
     box: Box({ color: T.Color.NAMES.purple }),
     icosahedron: Icosahedron(2, 0, {color: T.Color.NAMES.salmon}),
@@ -29,14 +25,15 @@ const SO = {
 
 const SCENE = new T.Scene();
 
-const RENDERER = new T.WebGLRenderer({alpha: false, antialias: true});
+const RENDERER = new T.WebGLRenderer({alpha: true, antialias: true});
+
 RENDERER.setPixelRatio(window.devicePixelRatio);
 
 const ORBIT = new OrbitControls(SC.camera, RENDERER.domElement);
 
 let cameraPosition = new T.Vector3(0, 0, 2);
 
-RENDERER.setSize(W, H);
+RENDERER.setSize(C.W, C.H);
 
 ORBIT.listenToKeyEvents(window);
 
@@ -68,11 +65,13 @@ SO.icosahedron.position.set(...[4,2,0])
 
 // GUI
 
-GUI.addColor(GUI.options, 'sphereColor', SO.sphere)
-GUI.addColor(GUI.options, 'boxColor', SO.box);
-GUI.addColor(GUI.options, 'icosahedronColor', SO.icosahedron)
-GUI.addToAll(GUI.options, 'wireframe', [SO.box, SO.sphere, SO.icosahedron])
-GUI.addSlider(GUI.options, 'boxSpeed', 0, 10, SO.box)
+const GUI = new G(C.GUI_OPTIONS);
+
+GUI.addColor('sphereColor', SO.sphere)
+GUI.addColor('boxColor', SO.box);
+GUI.addColor('icosahedronColor', SO.icosahedron)
+GUI.addToAll('wireframe', [SO.box, SO.sphere, SO.icosahedron])
+GUI.addSlider('boxSpeed', 0, 10)
 // Render
 
 function animate(t) {
