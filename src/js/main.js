@@ -10,6 +10,7 @@ export const CONSTANTS = {
         boxColor: "#00aaee",
         icosahedronColor: "#ae86ea",
         wireframe: false,
-        boxSpeed: 0.1
+        boxSpeed: 0.1,
+        animationDelay: 0.001
     },
 }

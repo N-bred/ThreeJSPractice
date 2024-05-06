@@ -25,7 +25,7 @@ const SO = {
 
 const SCENE = new T.Scene();
 
-const RENDERER = new T.WebGLRenderer({alpha: true, antialias: true});
+const RENDERER = new T.WebGLRenderer({alpha: false, antialias: true});
 
 RENDERER.setPixelRatio(window.devicePixelRatio);
 
@@ -72,12 +72,13 @@ GUI.addColor('boxColor', SO.box);
 GUI.addColor('icosahedronColor', SO.icosahedron)
 GUI.addToAll('wireframe', [SO.box, SO.sphere, SO.icosahedron])
 GUI.addSlider('boxSpeed', 0, 10)
+GUI.addSlider('animationDelay', 0, 0.1, 0.001)
 // Render
 
-function animate(t) {
+function animate(t = 0) {
     SO.box.rotation.x = (t / 1000) * GUI.options.boxSpeed;
     SO.box.rotation.y = (t / 1000) * GUI.options.boxSpeed;
-    SO.box.position.z = (Math.sin(t/1000) * GUI.options.boxSpeed) / 5;
+    SO.box.position.z = (Math.cos(t * GUI.options.animationDelay) + GUI.options.animationDelay);
     SO.plane.rotation.z += 0.001;
     RENDERER.render(SCENE, SC.camera);
 }
