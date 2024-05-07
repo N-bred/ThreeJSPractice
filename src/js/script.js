@@ -14,12 +14,18 @@ const SC = {
 
 const SO = {
     box: Box({ color: T.Color.NAMES.purple }),
-    icosahedron: Icosahedron(2, 0, {color: T.Color.NAMES.salmon}),
+    icosahedron: Icosahedron(2, 1, {color: T.Color.NAMES.salmon, flatShading: true}),
     sphere: Sphere({ color: T.Color.NAMES.yellow }),
     plane: Plane(3, 3, { color: T.Color.NAMES.white }),
     axisHelper: new T.AxesHelper(3),
     gridHelper: new T.GridHelper(),
 };
+
+// Scene Lights
+
+const SL = {
+    hemi: new T.HemisphereLight(0xffffff, 0x000000)
+}
 
 // SETUP
 
@@ -48,6 +54,10 @@ document.body.appendChild(RENDERER.domElement);
 
 // Scene Work
 
+// Lights
+
+SCENE.add(SL.hemi);
+
 // Materials, Geometries, Etc
 
 SCENE.add(SO.box);
@@ -73,6 +83,7 @@ GUI.addColor('icosahedronColor', SO.icosahedron)
 GUI.addToAll('wireframe', [SO.box, SO.sphere, SO.icosahedron])
 GUI.addSlider('boxSpeed', 0, 10)
 GUI.addSlider('animationDelay', 0, 0.1, 0.001)
+
 // Render
 
 function animate(t = 0) {
@@ -81,6 +92,27 @@ function animate(t = 0) {
     SO.box.position.z = (Math.cos(t * GUI.options.animationDelay) + GUI.options.animationDelay);
     SO.plane.rotation.z += 0.001;
     RENDERER.render(SCENE, SC.camera);
+    
 }
+
+// Events
+
+const handleWASDCameraMovement = (key) => {
+    const keyMapping = {
+        "w": ["z", -1],
+        "s": ["z", 1],
+        "a": ["x", -1],
+        "d": ["x", 1],
+        "q": ["y", 1],
+        "e": ["y", -1],
+    }
+    if (keyMapping[key] == null) return;
+    const [name, value] = keyMapping[key];
+    SC.camera.position[name] += value;
+}
+
+document.addEventListener('keydown', (e) => {
+    handleWASDCameraMovement(e.key);
+})
 
 RENDERER.setAnimationLoop(animate);
