@@ -1,4 +1,4 @@
-import { CONSTANTS as C} from './main';
+import { CONSTANTS as C } from './main';
 import * as T from 'three';
 import { GUI as G } from './gui';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
@@ -7,14 +7,14 @@ import { Box, Plane, Sphere, Icosahedron } from './meshes';
 // Scene Cameras
 
 const SC = {
-    camera: new T.PerspectiveCamera(C.FOV, C.W/C.H, C.NEAR, C.FAR)
+    camera: new T.PerspectiveCamera(C.FOV, C.W / C.H, C.NEAR, C.FAR)
 }
 
 // Scene Objects
 
 const SO = {
     box: Box({ color: T.Color.NAMES.purple }),
-    icosahedron: Icosahedron(2, 1, {color: T.Color.NAMES.salmon, flatShading: true}),
+    icosahedron: Icosahedron(2, 1, { color: T.Color.NAMES.salmon, flatShading: true }),
     sphere: Sphere({ color: T.Color.NAMES.yellow }),
     plane: Plane(3, 3, { color: T.Color.NAMES.white }),
     axisHelper: new T.AxesHelper(3),
@@ -31,7 +31,7 @@ const SL = {
 
 const SCENE = new T.Scene();
 
-const RENDERER = new T.WebGLRenderer({alpha: false, antialias: true});
+const RENDERER = new T.WebGLRenderer({ alpha: false, antialias: true });
 
 RENDERER.setPixelRatio(window.devicePixelRatio);
 
@@ -71,7 +71,7 @@ SO.sphere.position.x = 2;
 SCENE.add(SO.gridHelper);
 
 SCENE.add(SO.icosahedron);
-SO.icosahedron.position.set(...[4,2,0])
+SO.icosahedron.position.set(...[4, 2, 0])
 
 // GUI
 
@@ -92,7 +92,7 @@ function animate(t = 0) {
     SO.box.position.z = (Math.cos(t * GUI.options.animationDelay) + GUI.options.animationDelay);
     SO.plane.rotation.z += 0.001;
     RENDERER.render(SCENE, SC.camera);
-    
+
 }
 
 // Events
@@ -113,6 +113,14 @@ const handleWASDCameraMovement = (key) => {
 
 document.addEventListener('keydown', (e) => {
     handleWASDCameraMovement(e.key);
+})
+
+
+window.addEventListener('resize', (e) => {
+    C.H = window.innerHeight;
+    C.W = window.innerWidth;
+    RENDERER.setSize(C.W, C.H);
+    RENDERER.setPixelRatio(window.devicePixelRatio);
 })
 
 RENDERER.setAnimationLoop(animate);
